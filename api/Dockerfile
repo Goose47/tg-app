@@ -5,4 +5,4 @@ COPY ./requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
 EXPOSE 8000
-CMD ["py", "main.py"]
+CMD ["python", "main.py"]
