@@ -21,7 +21,7 @@ services:
     volumes:
       - ./certbot/conf:/etc/letsencrypt
       - ./certbot/www:/var/www/certbot
-    command: certonly --webroot -w /var/www/certbot/ --email tyumin000@gmail.com -d rwfshr.ru --agree-tos --cert-name tg
+    command: certonly --webroot -w /var/www/certbot/ --email tyumin000@gmail.com -d rwfshr.ru -d api.rwfshr.ru --agree-tos --cert-name tg
 
   fastapi:
     container_name: tg_fastapi
