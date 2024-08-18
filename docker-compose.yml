@@ -1,0 +1,50 @@
+version: '3'
+services:
+
+  nginx:
+    image: nginx:alpine
+    container_name: tg_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./certbot/www:/var/www/certbot/
+      - ./certbot/conf:/etc/letsencrypt/
+      - ./nginx/conf.d/:/etc/nginx/conf.d/
+    networks:
+      - tg_network
+
+  certbot:
+    image: certbot/certbot
+    container_name: tg_certbot
+    volumes:
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    command: certonly --webroot -w /var/www/certbot/ --email tyumin000@gmail.com -d rwfshr.ru --agree-tos --cert-name tg
+
+  fastapi:
+    container_name: tg_fastapi
+    restart: unless-stopped
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./api:/app
+    networks:
+      - tg_network
+
+  front:
+    container_name: tg_front
+    restart: unless-stopped
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    networks:
+      - tg_network
+
+networks:
+  tg_network:
+    driver: bridge
