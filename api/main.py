@@ -8,7 +8,7 @@ load_dotenv()
 telegram_bot_token = os.getenv('TELEGRAM_BOT_TOKEN')
 web_app_url = os.getenv('WEB_APP_URL')
 
-bot = telebot.TeleBot()
+bot = telebot.TeleBot(telegram_bot_token)
 
 
 @bot.message_handler(commands = ['start'])
